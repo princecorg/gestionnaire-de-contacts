@@ -4,7 +4,10 @@
 
 let choix = document.getElementById('selection')
 let btnChoix = document.getElementById('valider')
-
+let formulaire = document.getElementById('ajoutContact')
+let formPrenom = document.getElementById('firstName')
+let formNom = document.getElementById('lastName')
+let formBtn = document.getElementById('tdButton')
 let affichageDesContacts = document.querySelector('#contacts')
 //Instanciation des objets Contact
 const contact1 = new Contact('Lévisse', 'Carole')
@@ -23,28 +26,42 @@ function executerChoix () {
 
   switch (valeur) {
     case '1':
-      affichageDesContacts.innerHTML =
+        affichageDesContacts.innerHTML =
         '<h2>Voici la liste de tous les contacts :</h2>'
       // boucle d'affichage des contacts
       contacts.forEach(function (contact) {
         // Appel de la méthode d'affichage du contact pour chaque objet Contact
-        affichageDesContacts.innerHTML += contact.afficheContact();
+        affichageDesContacts.innerHTML += contact.afficheContact()
       })
-      affichageDesContacts.style.display = 'block';
-
-      break;
+      masquer(formulaire);
+      afficher(affichageDesContacts);
+      break
     case '2':
-      let nom = prompt('Entrez le nom du nouveau contact :');
-      let prenom = prompt('Entrez le prénom du nouveau contact :');
-      const nouveauContact = new Contact(nom, prenom);
-      nouveauContact.ajouteContact(contacts);
-      console.log('Le nouveau contact a été ajouté');
-      break;
+      afficher(formulaire);
+      masquer(affichageDesContacts);
+      formBtn.addEventListener('click', ajouterContact);
+      break
 
     case '0':
       if (window.confirm('Êtes-vous sûr de vouloir quitter ?')) {
-        window.close();
+        window.close()
       }
-      break;
+      break
   }
+}
+
+function masquer (element) {
+  element.style.display = 'none'
+}
+
+function afficher (element) {
+  element.style.display = 'block'
+}
+
+function ajouterContact() {
+  let nom = formNom.value;
+  let prenom = formPrenom.value;
+  const nouveauContact = new Contact(nom, prenom);
+  nouveauContact.ajouteContact(contacts);
+  alert('le contact '+prenom+' '+nom+' a été ajouté');
 }
