@@ -4,9 +4,9 @@
 // Création d'une classe Contact 
 
 class Contact{
-	constructor(nom,prenom){
-		this.nom = nom;
-		this.prenom = prenom;		
+	constructor(lastName,firstName){
+		this.nom = lastName;
+		this.prenom = firstName;		
 	}
 	
 	//Affichage des paramètres du contact dans la section

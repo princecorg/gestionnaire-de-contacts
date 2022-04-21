@@ -1,14 +1,20 @@
 /* Gestionnaire de Contact */
 
 //Variables, contacts et tableau les contenant
-
+// Les options du programme
 let choix = document.getElementById('selection')
 let btnChoix = document.getElementById('valider')
+// L'ajout des contacts
 let formulaire = document.getElementById('ajoutContact')
 let formPrenom = document.getElementById('firstName')
 let formNom = document.getElementById('lastName')
 let formBtn = document.getElementById('tdButton')
+// La suppression d'un contact
+let listeSuppression = document.getElementById('suppressionContact')
+let supprBtn = document.getElementById('supprimer')
+// l'affichage d'un contact
 let affichageDesContacts = document.querySelector('#contacts')
+
 //Instanciation des objets Contact
 const contact1 = new Contact('Lévisse', 'Carole')
 const contact2 = new Contact('Nelsonne', 'Mélodie')
@@ -17,51 +23,90 @@ const contact3 = new Contact('Vallot', 'Christophe')
 const contacts = [contact1, contact2]
 contacts.push(contact3)
 
-// Ajout d'un écouteur sur le bouton
+// Ajout d'un écouteur sur le bouton de choix
 btnChoix.addEventListener('click', executerChoix)
 
 function executerChoix () {
   let valeur = choix.value // Je récupère la valeur de l'option active sur le select
-  console.log('Le choix est : ', valeur)
 
   switch (valeur) {
-    case '1':
-        affichageDesContacts.innerHTML =
-        '<h2>Voici la liste de tous les contacts :</h2>'
-      // boucle d'affichage des contacts
-      contacts.forEach(function (contact) {
-        // Appel de la méthode d'affichage du contact pour chaque objet Contact
-        affichageDesContacts.innerHTML += contact.afficheContact()
-      })
-      masquer(formulaire);
-      afficher(affichageDesContacts);
-      break
-    case '2':
-      afficher(formulaire);
-      masquer(affichageDesContacts);
-      formBtn.addEventListener('click', ajouterContact);
-      break
-
     case '0':
       if (window.confirm('Êtes-vous sûr de vouloir quitter ?')) {
         window.close()
       }
       break
+    case '1':
+      masquer(formulaire)
+      masquer(listeSuppression)
+      masquer(supprBtn)
+      afficher(affichageDesContacts)
+      afficherContact()
+      break
+    case '2':
+      afficher(formulaire)
+      masquer(affichageDesContacts)
+      masquer(listeSuppression)
+      masquer(supprBtn)
+      formBtn.addEventListener('click', ajouterContact)
+      break
+    case '3':
+      afficher(listeSuppression)
+      afficher(supprBtn)
+      masquer(affichageDesContacts)
+      masquer(formulaire)
+      // Boucle permettant d'écrire les contacts sous forme d'options dans le select
+      listerContact()
+      supprBtn.addEventListener('click', supprimerContact)
+      break
   }
 }
-
+// Masque un élément en modifiant son style
 function masquer (element) {
   element.style.display = 'none'
 }
 
+// Affiche un élément en modifiant son style
 function afficher (element) {
   element.style.display = 'block'
 }
 
-function ajouterContact() {
-  let nom = formNom.value;
-  let prenom = formPrenom.value;
-  const nouveauContact = new Contact(nom, prenom);
-  nouveauContact.ajouteContact(contacts);
-  alert('le contact '+prenom+' '+nom+' a été ajouté');
+function ajouterContact () {
+  let nom = formNom.value
+  let prenom = formPrenom.value
+  if (nom === '' || prenom === '') {
+    // vérification du contenu des champs
+    alert("Au moins un des champs n'a pas été renseigné")
+  } else {
+    const nouveauContact = new Contact(nom, prenom)
+    nouveauContact.ajouteContact(contacts)
+    alert('le contact ' + prenom + ' ' + nom + ' a été ajouté')
+  }
+}
+
+function afficherContact () {
+  affichageDesContacts.innerHTML =
+    '<h2>Voici la liste de tous les contacts :</h2>'
+  // boucle d'affichage des contacts
+  contacts.forEach(function (contact) {
+    // Appel de la méthode d'affichage du contact pour chaque objet Contact
+    affichageDesContacts.innerHTML += contact.afficheContact()
+  })
+}
+
+function listerContact () {
+  listeSuppression.innerHTML = '' // efface la liste des contacts
+  for (let i = 0; i < contacts.length; i++) {
+    // Appel de la méthode d'affichage du contact pour chaque objet Contact
+    listeSuppression.innerHTML +=
+      '<option value=' + i + '>' + contacts[i].afficheContact() + '</option>'
+  }
+}
+
+function supprimerContact () {
+  let indexContact = listeSuppression.value
+  // Supprime la ligne du tableau en passant en paramètres son index et le nombre de lignes à supprimer
+  contacts.splice(indexContact, 1)
+  alert('Le contact a été supprimé')
+  masquer(listeSuppression)
+  masquer(supprBtn)
 }
