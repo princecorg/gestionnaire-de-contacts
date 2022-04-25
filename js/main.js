@@ -57,6 +57,18 @@ function executerChoix () {
       // Boucle permettant d'écrire les contacts sous forme d'options dans le select
       listerContact()
       supprBtn.addEventListener('click', supprimerContact)
+      renommerSupprBtn(true)
+      break
+    case '4':
+      afficher(listeSuppression)
+      afficher(supprBtn)
+      masquer(affichageDesContacts)
+      masquer(formulaire)
+      // Boucle permettant d'écrire les contacts sous forme d'options dans le select
+      listerContact()
+      supprBtn.addEventListener('click', modifierContact)
+      //On renomme le bouton
+      renommerSupprBtn()
       break
   }
 }
@@ -117,4 +129,13 @@ function supprimerContact () {
   alert('Le contact a été supprimé')
   masquer(listeSuppression)
   masquer(supprBtn)
+}
+
+function modifierContact () {
+  alert('fonction modifier')
+  
+}
+// Utilisation d'une ternaire pour renommer le bouton de suppression au besoin
+function renommerSupprBtn(option) {
+  option ? supprBtn.textContent = "Supprimer un contact" : supprBtn.textContent = "Modifier le contact"
 }
