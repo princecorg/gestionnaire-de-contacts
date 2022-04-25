@@ -93,13 +93,21 @@ function afficherContact () {
   })
 }
 
+/* deux boucles différentes : for ou forEach */
 function listerContact () {
   listeSuppression.innerHTML = '' // efface la liste des contacts
-  for (let i = 0; i < contacts.length; i++) {
-    // Appel de la méthode d'affichage du contact pour chaque objet Contact
+  // for (let i = 0; i < contacts.length; i++) {
+  //   // Appel de la méthode d'affichage du contact pour chaque objet Contact
+  //   listeSuppression.innerHTML +=
+  //     '<option value=' + i + '>' + contacts[i].afficheContact() + '</option>'
+  // }
+  //}
+  let indice = 0
+  contacts.forEach(function (contact) {
     listeSuppression.innerHTML +=
-      '<option value=' + i + '>' + contacts[i].afficheContact() + '</option>'
-  }
+    '<option value=' + indice + '>' + contact.afficheContact() + '</option>'
+    indice++
+  })
 }
 
 function supprimerContact () {
