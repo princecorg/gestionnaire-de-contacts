@@ -57,6 +57,7 @@ function executerChoix () {
       // Boucle permettant d'écrire les contacts sous forme d'options dans le select
       listerContact()
       supprBtn.addEventListener('click', supprimerContact)
+      // passage d'un booléen en paramètre pour rendre "vrai" l'option
       renommerSupprBtn(true)
       break
     case '4':
@@ -132,10 +133,31 @@ function supprimerContact () {
 }
 
 function modifierContact () {
-  alert('fonction modifier')
-  
+  masquer(listeSuppression)
+  masquer(supprBtn)
+  afficher(formulaire)
+  let indexContact = listeSuppression.value
+  console.log(indexContact)
+  formNom.value = contacts[indexContact].nom
+  formPrenom.value = contacts[indexContact].prenom
+  formBtn.addEventListener('click', validerModifierContact)
 }
 // Utilisation d'une ternaire pour renommer le bouton de suppression au besoin
 function renommerSupprBtn(option) {
   option ? supprBtn.textContent = "Supprimer un contact" : supprBtn.textContent = "Modifier le contact"
+}
+
+function validerModifierContact(){
+  let nom = formNom.value
+  let prenom = formPrenom.value
+  let indexContact = listeSuppression.value
+  if (nom === '' || prenom === '') {
+    // vérification du contenu des champs
+    alert("Au moins un des champs est vide")
+  } else {
+   contacts[indexContact].nom = nom
+   contacts[indexContact].prenom = prenom
+    alert('le contact ' + prenom + ' ' + nom + ' a été modifié')
+    masquer(formulaire)
+  }
 }
