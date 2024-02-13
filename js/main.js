@@ -48,6 +48,7 @@ function executerChoix () {
       masquer(listeSuppression)
       masquer(supprBtn)
       formBtn.addEventListener('click', ajouterContact)
+      masquer(formulaire)
       break
     case '3':
       afficher(listeSuppression)
